@@ -40,7 +40,7 @@ class TableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellInfo", for: indexPath)
         var content = cell.defaultContentConfiguration()
         if let one = testData?.company.employees[indexPath.row] {
-        content.text = "Имя кандидата: \(one.name) \nТелефон кандидата: \(one.phone_number) \nЯзыки программирования: \(one.skills)"
+            content.text = "Имя кандидата: \(one.name) \nТелефон кандидата: \(one.phone_number) \nЯзыки программирования: \(one.skills.shuffled().joined(separator: ", "))"
         }
         cell.contentConfiguration = content
         return cell
