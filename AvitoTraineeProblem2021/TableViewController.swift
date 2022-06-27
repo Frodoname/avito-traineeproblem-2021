@@ -39,8 +39,8 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellInfo", for: indexPath)
         var content = cell.defaultContentConfiguration()
-        if let one = testData?.company.employees[indexPath.row] {
-            content.text = "Имя кандидата: \(one.name) \nТелефон кандидата: \(one.phone_number) \nЯзыки программирования: \(one.skills.shuffled().joined(separator: ", "))"
+        if let gotData = testData?.company.employees[indexPath.row] {
+            content.text = "Имя кандидата: \(gotData.name) \nТелефон кандидата: \(gotData.phone_number) \nЯзыки программирования: \(gotData.skills.shuffled().joined(separator: ", "))"
         }
         cell.contentConfiguration = content
         return cell
@@ -62,7 +62,6 @@ extension TableViewController: NetworkDelegate {
     }
     
     func errorWarning(with: Error) {
-        print("HREN")
         print(with.localizedDescription)
     }
     
