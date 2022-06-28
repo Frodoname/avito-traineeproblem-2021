@@ -13,14 +13,12 @@ class TableViewController: UITableViewController {
     
     var netWork = NetworkManager()
     
-    var count: Int?
+    var countCells: Int?
     var error: Error?
+    var data: NetworkData?
     
-    var testData: NetworkData?
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         netWork.delegate = self
         netWork.fetchData()
@@ -33,37 +31,33 @@ class TableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return count ?? 0
+        return countCells ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellInfo", for: indexPath)
         var content = cell.defaultContentConfiguration()
-        if let gotData = testData?.company.employees[indexPath.row] {
+        
+        if let gotData = data?.company.employees[indexPath.row] {
             content.text = "Имя кандидата: \(gotData.name) \nТелефон кандидата: \(gotData.phone_number) \nЯзыки программирования: \(gotData.skills.shuffled().joined(separator: ", "))"
         }
         cell.contentConfiguration = content
         return cell
     }
 }
+//MARK: - TableViewDelegate
 
 extension TableViewController: NetworkDelegate {
     
     func loadData(dataResultsLoaded: NetworkData) {
-        
         DispatchQueue.main.async {
-            
-            self.testData = dataResultsLoaded
-            self.count = dataResultsLoaded.company.employees.count
+            self.data = dataResultsLoaded
+            self.countCells = dataResultsLoaded.company.employees.count
             self.tableView.reloadData()
         }
-       
-        
     }
     
     func errorWarning(with: Error) {
         print(with.localizedDescription)
     }
-    
-    
 }

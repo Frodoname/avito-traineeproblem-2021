@@ -31,13 +31,8 @@ struct NetworkManager {
                     if let safeData = data {
                         do {
                             let results = try decoder.decode(NetworkData.self, from: safeData)
-                            
                             self.delegate?.loadData(dataResultsLoaded: results)
-                            
-                            
                         } catch {
-                            
-                            
                             self.delegate?.errorWarning(with: error)
                         }
                     }
